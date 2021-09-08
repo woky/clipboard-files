@@ -153,7 +153,11 @@ if [ "${op}" = paste ] || [ "${op}" = show ] || [ "${op}" = cd ]; then
   done <<< "${filelist}"
 
   if [ "${op}" = paste ] && [ "${paste_mode}" = "cut" ]; then
-    echo -n | xclip -selection clipboard
+    if command -v xsel >/dev/null; then
+      xsel -bc
+    else
+      echo -n | xclip -selection clipboard
+    fi
   fi
 
 elif [ "${op}" = copy ] || [ "${op}" = cut ]; then
